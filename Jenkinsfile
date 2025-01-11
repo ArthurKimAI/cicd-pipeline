@@ -7,6 +7,12 @@ pipeline {
       }
     }
 
+    stage('second') {
+      steps {
+        sh './build.sh'
+      }
+    }
+
   }
   environment {
     cicd = 'first'
