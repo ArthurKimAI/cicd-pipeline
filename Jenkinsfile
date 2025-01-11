@@ -13,6 +13,12 @@ pipeline {
       }
     }
 
+    stage('third') {
+      steps {
+        sh './test.sh'
+      }
+    }
+
   }
   environment {
     cicd = 'first'
