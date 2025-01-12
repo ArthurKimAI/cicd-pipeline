@@ -1,26 +1,30 @@
 pipeline {
-  agent any
-  stages {
-    stage('first') {
-      steps {
-        sh 'npm install'
-      }
-    }
+    agent any
 
-    stage('second') {
-      steps {
-        sh './build.sh'
-      }
-    }
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/ArthurKimAI/cicd-pipeline.git'
+            }
+        }
 
-    stage('third') {
-      steps {
-        sh './test.sh'
-      }
-    }
+        stage('Build Application') {
+            steps {
+                sh './build.sh'
+            }
+        }
 
-  }
-  environment {
-    cicd = 'first'
-  }
+        stage('Tests') {
+            steps {
+                sh './test.sh'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh "docker build . -t ${arthurkimmel}/${mybuildimage}:${env.BUILD_NUMBER}"
+            }
+        }
+    }
 }
